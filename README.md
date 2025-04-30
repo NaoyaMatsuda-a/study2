@@ -1,16 +1,16 @@
 # aws-autoscaling-alb-demo
-Auto Scaling Group + Application Load Balancer による Webサーバーのスケーラブル構成（初中級向け）
+Auto Scaling Group + Application Load Balancer による Webサーバーのスケーラブル構成（初級向け）
 
 ---
 
-## 📝 プロジェクト概要
+## プロジェクト概要
 
 本プロジェクトでは、AWSのAuto Scaling Group（ASG）とApplication Load Balancer（ALB）を活用して、高可用性と自動スケーリングを備えたWebサーバー環境を構築しました。  
 起動テンプレートを用いてApacheが自動起動するAmazon Linux 2インスタンスを複数AZに展開し、ALB配下でトラフィック分散を実現しています。
 
 ---
 
-## ☁️ 使用したAWSサービス
+## 使用したAWSサービス
 
 - VPC（CIDR: 10.1.0.0/16）
 - パブリックサブネット（2AZ構成）
@@ -24,14 +24,29 @@ Auto Scaling Group + Application Load Balancer による Webサーバーのス�
 
 ---
 
-## 🖼️ 構成図
+## 構成図
 
 ※構成図画像をここに貼ってください  
-例: `![構成図](構成図URL)`
+[ Internet ]
+     |
+     ▼
+[ Application Load Balancer ]
+     |
+     ├────AZ1───────────────┐
+     │                      │
+     │               [ EC2 Instance #1 ]
+     │               (Auto Scaling Group)
+     │                      ▲
+     │                      │
+     └────AZ2───────────────┤
+                            ▼
+                     [ EC2 Instance #2 ]
+               (Auto Scaling Group, 起動テンプレート)
+
 
 ---
 
-## ⚙️ 作業手順概要
+## 作業手順概要
 
 1. VPC作成（10.1.0.0/16）
 2. パブリックサブネット作成（2AZ、10.1.1.0/24, 10.1.2.0/24）
@@ -45,20 +60,23 @@ Auto Scaling Group + Application Load Balancer による Webサーバーのス�
 
 ---
 
-## 💻 接続・確認画面
+##  接続・確認画面
 
 ### ✅ ssh接続確認
-※スクショを貼ってください（PuTTY or ターミナル）
+![スクリーンショット 2025-05-01 020958](https://github.com/user-attachments/assets/2df7753f-1404-45b1-94b4-600402d43c58)
+
 
 ### ✅ ヘルスチェック確認
-※ALBターゲットの正常ステータスのスクショ
+![スクリーンショット 2025-05-01 020748](https://github.com/user-attachments/assets/0ac22c10-c917-4283-91c9-693a052bd9b2)
+
 
 ### ✅ Webブラウザ確認
-`http://{ALBのDNS名}` にアクセスし、Apacheページ表示
+![スクリーンショット 2025-05-01 020416](https://github.com/user-attachments/assets/5e96d073-856a-4191-86dd-a95d59a12437)
+
 
 ---
 
-## 📚 学び・気づき
+## 学び・気づき
 
 - ApacheインストールをUserDataで自動化する重要性
 - セキュリティグループが ALB → EC2 で許可されていないと通信できない
@@ -67,7 +85,7 @@ Auto Scaling Group + Application Load Balancer による Webサーバーのス�
 
 ---
 
-## 🚀 今後のチャレンジ
+## 今後のチャレンジ
 
 - CloudWatchアラームによるスケーリングポリシー追加
 - Route53連携による独自ドメイン運用
@@ -75,11 +93,4 @@ Auto Scaling Group + Application Load Balancer による Webサーバーのス�
 
 ---
 
-## 🗂️ 補足：使用AMI
-- Amazon Linux 2（ID: ami-xxxxxxxxxxxxxxxxx）  
-※起動テンプレートに明記しています。
 
----
-
-## 🔗 GitHubリンク
-リポジトリURL: `https://github.com/yourname/aws-autoscaling-alb-demo`
